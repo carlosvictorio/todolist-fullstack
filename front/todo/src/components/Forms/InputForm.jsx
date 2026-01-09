@@ -84,7 +84,7 @@ const InputForm = ({
                 id={id}
                 type={type}
                 onChange={onChange}
-                required
+                required={label === "Name" ? false : true}
                 disabled={disabled}
                 placeholder=" "
                 value={value}
