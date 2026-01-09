@@ -26,7 +26,7 @@ export const Header = ({ className }) => {
 
     return (
         <div
-            className={`bg-cyan-950 h-[10%] w-full flex justify-between items-center top-0 ${className}`}
+            className={`bg-gray-600 h-[10%] w-full flex justify-between items-center top-0 ${className}`}
         >
             <Link to="/todolist">
                 <img src={todoimg} alt="logo" className="w-[70px] ml-5" />
@@ -38,7 +38,7 @@ export const Header = ({ className }) => {
                     className=" mr-5 rounded-3xl ml-1.5 cursor-pointer"
                 >
                     <div className="avatar cursor-pointer">
-                        <div className="w-12 p-1 rounded-full bg-gray-300">
+                        <div className="w-12 p-1 border-2 border-white hover:border-black rounded-full bg-white">
                             <img src={perfil} />
                         </div>
                     </div>
