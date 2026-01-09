@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import EditLogo from "../assets/edit-page.png";
 import InputForm from "../components/Forms/InputForm";
 import BtnForm from "../components/Forms/BtnForm";
@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 
 const EditPage = () => {
     const navigate = useNavigate();
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
     const [name, setName] = useState(user.name);
     const [email, setEmail] = useState(user.email);
     const [isChecked, setIsChecked] = useState(false);
@@ -48,9 +48,11 @@ const EditPage = () => {
             confirmButtonText: "Sim, eu quero editar!",
         }).then((result) => {
             if (result.isConfirmed) {
+                //settar User do Auth Provider
                 userService
                     .updateMe({ name, email, password })
-                    .then(() =>
+                    .then((response) => {
+                        setUser(response);
                         Swal.fire({
                             width: "30%",
                             title: "Successo",
@@ -63,8 +65,8 @@ const EditPage = () => {
                                 confirmButton:
                                     "!cursor-pointer !bg-blue-600 !text-amber-50 hover:!bg-blue-500 !transition-colors !duration-300 font-bold px-7 py-0.5 w-30",
                             },
-                        }).then(() => navigate("/todolist"))
-                    )
+                        }).then(() => navigate("/todolist"));
+                    })
                     .catch((error) => console.error(error));
             }
         });
@@ -88,17 +90,13 @@ const EditPage = () => {
                             label={"Name"}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                        >
-                            {user.email}
-                        </InputForm>
+                        ></InputForm>
                         <InputForm
                             type={"email"}
                             label={"E-mail"}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                        >
-                            {user.email}
-                        </InputForm>
+                        ></InputForm>
                         <div className="w-[80%] flex flex-col justify-between items-center gap-2.5">
                             <span className="w-[80%] border border-b-amber-100"></span>
                             <div className="flex justify-center items-center">
@@ -145,8 +143,14 @@ const EditPage = () => {
                                 }
                             />
                         </div>
-                        <div className="mb-5">
-                            <BtnForm content={"Editar"} cl />
+                        <div className="flex flex-col gap-1.5 mb-5">
+                            <BtnForm content={"Editar"} />
+                            <Link
+                                to={"/todolist"}
+                                className="cursor-pointer text-center rounded bg-gray-50 text-black font-bold px-7 py-0.5 w-60 hover:bg-gray-300 transition-colors duration-300"
+                            >
+                                Cancelar
+                            </Link>
                         </div>
                     </form>
                 </div>
