@@ -1,4 +1,3 @@
-import React from "react";
 import Alerta from "../assets/alerta.png";
 
 const NotFoundPage = () => {
