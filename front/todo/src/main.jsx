@@ -18,7 +18,6 @@ const router = createBrowserRouter([
     { path: "/register", element: <Register /> },
     { path: "/login", element: <Login /> },
     { path: "*", element: <NotFoundPage /> },
-    { path: "/loading", element: <LoadingPage /> }, //Apagar
     {
         path: "/editing",
         element: (
