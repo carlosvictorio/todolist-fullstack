@@ -19,7 +19,6 @@ const LoginForm = () => {
         authService
             .login(email, password)
             .then((response) => {
-                console.log(response);
                 navigate("/todolist");
             })
             .catch((error) => {
@@ -65,8 +64,6 @@ const LoginForm = () => {
                         "!cursor-pointer !bg-blue-600 !text-amber-50 hover:!bg-blue-500 !transition-colors !duration-300 font-bold px-7 py-0.5 w-30",
                 },
             }).then(() => navigate(location.pathname, { replace: true }));
-
-            console.log("Chegou aqui no email");
 
             return;
         }
