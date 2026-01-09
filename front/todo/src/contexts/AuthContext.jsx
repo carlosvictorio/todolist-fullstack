@@ -2,7 +2,6 @@ import { createContext, useState, useEffect } from "react";
 import userService from "../services/userService";
 import { authService } from "../services/authService";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext(null);
 
@@ -47,6 +46,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider
             value={{
                 user,
+                setUser,
                 loading,
                 isAuthenticated: !!user,
                 logout,
