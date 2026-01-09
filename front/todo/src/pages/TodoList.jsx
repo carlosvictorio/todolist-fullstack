@@ -25,6 +25,10 @@ const TodoList = () => {
     }
 
     function handleTextEdit(id, text) {
+        if (text.trim().length >= 100) {
+            Swal.fire("Descreva o que fazer com no máximo 100 caracteres!!");
+            return;
+        }
         setTasks((prevTasks) =>
             prevTasks.map((task) =>
                 task.id == id ? { ...task, name: text } : task
@@ -33,8 +37,6 @@ const TodoList = () => {
     }
 
     function editOk(id, text) {
-        console.log("ID: ", id, "NAME: ", text);
-
         taskService
             .updateTaskName(id, text)
             .catch((error) => console.error(error));
@@ -53,8 +55,8 @@ const TodoList = () => {
             editing: false,
         };
 
-        if (newTodo.name.trim().length > 50) {
-            alert("Descreva o que fazer com no máximo 50 caracteres!");
+        if (newTodo.name.trim().length >= 100) {
+            Swal.fire("Descreva o que fazer com no máximo 100 caracteres!!");
             return;
         }
 
@@ -135,7 +137,7 @@ const TodoList = () => {
                     className="xl:min-h-1/4 xl:max-h-3/4 xl:w-xl w-[90%] flex flex-col items-center justify-center bg-gray-600
   gap-4 rounded shadow-xl"
                 >
-                    <h1 className="text-amber-50 font-bold mt-5">TODO</h1>
+                    <h1 className="text-amber-50 font-bold mt-5">TO-DO</h1>
                     <form
                         onSubmit={handleTask}
                         className="flex justify-center items-center gap-2"
@@ -150,84 +152,89 @@ const TodoList = () => {
                             Adicionar
                         </button>
                     </form>
-                    <ul className="flex overflow-auto flex-col items-center gap-1 max-h-90  mb-2">
+                    <ul className="flex overflow-auto flex-col items-stretch gap-1 max-h-90  mb-2">
                         {tasks.map((task) => (
                             <li
                                 key={task.id}
-                                className="flex justify-center items-center xl:w-120 w-[70%] min-h-15 rounded bg-amber-50 shadow-md shadow-gray-600 m-1"
+                                className="flex justify-center items-center h-20 min-h-15 xl:w-120 w-[70%]rounded bg-amber-50 shadow-md shadow-gray-600 m-1"
                             >
-                                {task.editing ? (
-                                    <div className="flex items-center justify-evenly w-full">
-                                        <input
-                                            name="input"
-                                            value={task.name} //Corrigir erro de quando do balão não crescer de acordo com o tamanho do texto e verificar se o input não tá vazio antes de atualizar a edição
-                                            onChange={(e) =>
-                                                handleTextEdit(
-                                                    task.id,
-                                                    e.target.value
-                                                )
-                                            }
-                                            className="text-gray-950 left-1 w-96 max-h-14 pl-1 outline rounded"
-                                        />
-
-                                        <button
-                                            className="cursor-pointer"
-                                            onClick={() => {
-                                                handleEditing(task.id);
-                                                editOk(task.id, task.name);
-                                            }}
-                                        >
-                                            <img src={Ok} alt="" />
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <>
-                                        <button
-                                            onClick={() =>
-                                                handleEditing(task.id)
-                                            }
-                                        >
-                                            <img
-                                                src={EditIcon}
-                                                className="ml-1 w-[30px] cursor-pointer"
-                                                alt=""
+                                <div className="flex items-center justify-evenly w-full">
+                                    {task.editing ? (
+                                        <>
+                                            {" "}
+                                            <input
+                                                name="input"
+                                                value={task.name} //Corrigir erro de quando do balão não crescer de acordo com o tamanho do texto e verificar se o input não tá vazio antes de atualizar a edição
+                                                onChange={(e) =>
+                                                    handleTextEdit(
+                                                        task.id,
+                                                        e.target.value
+                                                    )
+                                                }
+                                                className="text-gray-950 left-1 w-96 max-h-14 pl-1 outline rounded"
                                             />
-                                        </button>
-                                        <h2
-                                            className={`text-gray-950 font-bold left-1 w-90 max-h-14 pl-1 ${
-                                                task.status === "DONE"
-                                                    ? "line-through italic"
-                                                    : ""
-                                            }`}
-                                        >
-                                            {task.name}
-                                        </h2>
+                                            <button
+                                                className="cursor-pointer"
+                                                onClick={() => {
+                                                    handleEditing(task.id);
+                                                    editOk(task.id, task.name);
+                                                }}
+                                            >
+                                                <img src={Ok} alt="" />
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <button
+                                                onClick={() =>
+                                                    handleEditing(task.id)
+                                                }
+                                                className=""
+                                            >
+                                                <img
+                                                    src={EditIcon}
+                                                    className="ml-1 w-[30px] cursor-pointer"
+                                                    alt=""
+                                                />
+                                            </button>
+                                            <div className="flex-1 mx-2 my-1 min-w-0 max-h-14 overflow-y-auto bg-gray-200 border border-gray-600 rounded-md">
+                                                <h2
+                                                    className={`text-black font-bold left-1 break-words whitespace-normal pl-1 ${
+                                                        task.status === "DONE"
+                                                            ? "line-through italic"
+                                                            : ""
+                                                    }`}
+                                                >
+                                                    {task.name}
+                                                </h2>
+                                            </div>
 
-                                        <input
-                                            onChange={() =>
-                                                toggleStatus(task.id)
-                                            }
-                                            defaultChecked={
-                                                task.status === "DONE"
-                                            }
-                                            type="checkbox"
-                                            className="checkbox checkbox-xl checkbox-success"
-                                        />
-
-                                        <button
-                                            onClick={() =>
-                                                deleteTask(task.id, task)
-                                            }
-                                            className="py-0.5 ml-1 mr-1 w-[35px] cursor-pointer"
-                                        >
-                                            <img
-                                                className="w-8"
-                                                src={Trash}
-                                                alt=""
+                                            <input
+                                                onChange={() =>
+                                                    toggleStatus(task.id)
+                                                }
+                                                defaultChecked={
+                                                    task.status === "DONE"
+                                                }
+                                                type="checkbox"
+                                                className="checkbox checkbox-xl mt-1 checkbox-success "
                                             />
-                                        </button>
-                                    </>
-                                )}
+
+                                            <button
+                                                onClick={() =>
+                                                    deleteTask(task.id, task)
+                                                }
+                                                className="py-0.5 mx-1  w-[35px] cursor-pointer"
+                                            >
+                                                <img
+                                                    className="w-8"
+                                                    src={Trash}
+                                                    alt=""
+                                                />
+                                            </button>
+                                        </>
+                                    )}
+                                </div>
                             </li>
                         ))}
                     </ul>
