@@ -7,6 +7,7 @@ import com.victorio.todo.dto.user.UserCreateDto;
 import com.victorio.todo.dto.user.UserResponseDto;
 import com.victorio.todo.models.User;
 import com.victorio.todo.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,14 @@ public class AuthController {
         this.tokenConfig = tokenConfig;
     }
 
+    @Operation(
+            summary = "Login",
+            description = """
+            Conta ADMIN: <br>
+            E-mail:admin@admin.com <br>
+            Password:admin <br>
+            """
+    )
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         UsernamePasswordAuthenticationToken usernameAndPassword = new UsernamePasswordAuthenticationToken(request.email(), request.password());
@@ -41,6 +50,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(new LoginResponse(token, userAuthenticated.getName(), userAuthenticated.getEmail(), userAuthenticated.getRoles().stream().map(Enum::toString).toList()));
     }
 
+    @Operation(summary = "Register")
     @PostMapping("/register")
     public ResponseEntity<UserResponseDto> register(@Valid @RequestBody UserCreateDto request) {
         System.out.println(request);
