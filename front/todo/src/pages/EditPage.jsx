@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import EditLogo from "../assets/edit-page.png";
 import InputForm from "../components/Forms/InputForm";
 import BtnForm from "../components/Forms/BtnForm";
 import { Header } from "../components/Header/Header";
 import { useAuth } from "../hooks/useAuth";
-import userService from "../services/userService";
+import userService from "../services/UserService";
 import Swal from "sweetalert2";
 
 const EditPage = () => {

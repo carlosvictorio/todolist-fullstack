@@ -4,9 +4,8 @@ import BtnForm from "../../../Forms/BtnForm";
 import { useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
-import { authService } from "../../../../services/authService";
+import { authService } from "../../../../services/AuthService";
 import HttpError from "../../../../errors/HttpError";
-import LoadingPage from "../../../../pages/LoadingPage";
 const LoginForm = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();

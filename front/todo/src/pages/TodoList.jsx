@@ -3,7 +3,7 @@ import Trash from "../assets/bin.png";
 import EditIcon from "../assets/edit-icon-48.png";
 import Ok from "../assets/ok.png";
 import Swal from "sweetalert2";
-import taskService from "../services/taskService";
+import taskService from "../services/TaskService";
 import { Header } from "../components/Header/Header";
 
 const TodoList = () => {

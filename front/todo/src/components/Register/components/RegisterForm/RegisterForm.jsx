@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import InputForm from "../../../Forms/InputForm";
 import BtnForm from "../../../Forms/BtnForm";
 import { useState } from "react";
-import { authService } from "../../../../services/authService";
+import { authService } from "../../../../services/AuthService";
 import HttpError from "../../../../errors/HttpError";
 import Swal from "sweetalert2";
 
