@@ -8,7 +8,7 @@ class TaskService {
             customMethod: "POST",
             bodyObject: { name },
         });
-        console.log("Response: ", response);
+        return response;
     }
 
     async getMyTasks() {
