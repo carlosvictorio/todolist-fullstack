@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.victorio.todo.models.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.util.Optional;
@@ -12,7 +13,8 @@ import java.util.Optional;
 @Component
 public class TokenConfig {
 
-    private final String secret = "secret";
+    @Value("${TOKEN_SECRET}")
+    private String secret;
 
     public String generateToken(User user) {
 
