@@ -1,7 +1,7 @@
 import ApiService from "./ApiService";
 
 class TaskService {
-    api = new ApiService("http://localhost:8080/tasks");
+    api = new ApiService("/tasks");
 
     async createTask(name) {
         const response = await this.api.defaultFetch({

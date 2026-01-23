@@ -1,7 +1,7 @@
 import ApiService from "./ApiService";
 
 class UserService {
-    api = new ApiService("http://localhost:8080/users");
+    api = new ApiService("/users");
 
     async getAllUsers() {
         const response = await this.api.defaultFetch({ customMethod: "GET" });
