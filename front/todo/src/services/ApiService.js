@@ -1,9 +1,10 @@
 import HttpError from "../errors/HttpError";
 import Cookies from "js-cookie";
+const API_URL = import.meta.env.VITE_API_URL;
 
 class ApiService {
     constructor(baseUrl) {
-        this.baseUrl = baseUrl;
+        this.baseUrl = `${API_URL}${baseUrl}`;
     }
 
     async defaultFetch({ customPath, customMethod, bodyObject } = {}) {
@@ -28,7 +29,7 @@ class ApiService {
         if (!response.ok) {
             throw new HttpError(
                 data.message || "Something went wrong",
-                response.status
+                response.status,
             );
         }
 
