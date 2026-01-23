@@ -13,13 +13,7 @@ function ProtectedRoute({ children, allowedRoles }) {
         return (
             <Navigate
                 to="/login"
-                state={
-                    isLogout
-                        ? { isLogout: "Você saiu!" }
-                        : {
-                              unauthorized: "Faça login para acessar!",
-                          }
-                } //LoginForm deve receber e exibir um alert com essa mensagem
+                state={isLogout ? { isLogout: "Você saiu!" } : undefined}
                 replace
             />
         );
