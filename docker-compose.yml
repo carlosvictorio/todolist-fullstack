@@ -1,0 +1,55 @@
+services:
+  db:
+    image: postgres:16.11-alpine
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME}"]
+      interval: 2s
+      retries: 10
+
+  front:
+    build:
+      context: ./front/todo
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+    container_name: front-build
+    volumes:
+      - frontend_dist:/app/dist
+    restart: "no"
+
+  back:
+    build: ./back/todo
+    container_name: todo-back
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/${DB_NAME}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      TOKEN_SECRET: ${TOKEN_SECRET}
+    ports:
+      - "8080:8080"
+    restart: always
+
+  nginx:
+    build: ./nginx
+    container_name: todo-nginx
+    depends_on:
+      - back
+      - front
+    ports:
+      - "80:80"
+    volumes:
+      - frontend_dist:/usr/share/nginx/html:ro #"ro" === (READ ONLY)
+    restart: always
+
+volumes:
+  postgres-data:
+  frontend_dist:
