@@ -1,9 +1,11 @@
 import HttpError from "../errors/HttpError";
 import Cookies from "js-cookie";
+const API_URL = import.meta.env.VITE_API_URL;
+
 class AuthService {
     async register(email, password) {
         const name = "";
-        const response = await fetch("http://localhost:8080/auth/register", {
+        const response = await fetch(`${API_URL}/auth/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password }),
@@ -15,7 +17,7 @@ class AuthService {
             throw new HttpError(
                 data.message || "Something went wrong!",
                 data.errors,
-                response.status
+                response.status,
             );
         }
 
@@ -23,7 +25,7 @@ class AuthService {
     }
 
     async login(email, password) {
-        const response = await fetch("http://localhost:8080/auth/login", {
+        const response = await fetch(`${API_URL}/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),
@@ -35,7 +37,7 @@ class AuthService {
             throw new HttpError(
                 data.message || "Something went wrong!",
                 data.errors,
-                response.status
+                response.status,
             );
         }
 
