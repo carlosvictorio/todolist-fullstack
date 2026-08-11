@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import Trash from "../assets/bin.png";
-import EditIcon from "../assets/edit-icon-48.png";
-import Ok from "../assets/ok.png";
+import todoTitle from "../assets/todo-list-title.png";
+import { FaTrashAlt } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
+import { FaClipboardCheck } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
 import Swal from "sweetalert2";
 import taskService from "../services/TaskService";
 import { Header } from "../components/Header/Header";
@@ -19,8 +21,8 @@ const TodoList = () => {
     function handleEditing(id) {
         setTasks((prevTasks) =>
             prevTasks.map((task) =>
-                task.id == id ? { ...task, editing: !task.editing } : task
-            )
+                task.id == id ? { ...task, editing: !task.editing } : task,
+            ),
         );
     }
 
@@ -31,8 +33,8 @@ const TodoList = () => {
         }
         setTasks((prevTasks) =>
             prevTasks.map((task) =>
-                task.id == id ? { ...task, name: text } : task
-            )
+                task.id == id ? { ...task, name: text } : task,
+            ),
         );
     }
 
@@ -82,8 +84,8 @@ const TodoList = () => {
                     prevTasks.map((task) =>
                         task.id == taskSelected.id
                             ? { ...task, status: statusUpdated }
-                            : task
-                    )
+                            : task,
+                    ),
                 );
             })
             .catch((error) => console.error(error));
@@ -107,7 +109,7 @@ const TodoList = () => {
                             .deleteTask(task.id)
                             .then(() => {
                                 setTasks((prevTasks) =>
-                                    prevTasks.filter((task) => task.id !== id)
+                                    prevTasks.filter((task) => task.id !== id),
                                 );
                             })
                             .catch((error) => console.error(error));
@@ -121,7 +123,7 @@ const TodoList = () => {
             .deleteTask(task.id)
             .then(() => {
                 setTasks((prevTasks) =>
-                    prevTasks.filter((task) => task.id !== id)
+                    prevTasks.filter((task) => task.id !== id),
                 );
             })
             .catch((error) => console.error(error));
@@ -137,7 +139,7 @@ const TodoList = () => {
                     className="xl:min-h-1/4 xl:max-h-3/4 xl:w-xl w-[90%] flex flex-col items-center justify-center bg-gray-600
   gap-4 rounded shadow-xl"
                 >
-                    <h1 className="text-amber-50 font-bold mt-5">TO-DO</h1>
+                    <img src={todoTitle} alt="" className="w-30 mt-8" />
                     <form
                         onSubmit={handleTask}
                         className="flex justify-center items-center gap-2"
@@ -148,17 +150,17 @@ const TodoList = () => {
                             name="newTask"
                             placeholder="Digite seu nome"
                         />
-                        <button className="cursor-pointer bg-blue-500 hover:bg-blue-600 transition-colors duration-300 text-amber-50 rounded font-bold px-7 py-0.5">
-                            Adicionar
+                        <button className="flex items-center cursor-pointer gap-1 bg-blue-500 hover:bg-blue-600 transition-colors duration-300 text-amber-50 rounded font-bold px-7 py-0.5">
+                            <IoMdAdd color="white" /> Adicionar
                         </button>
                     </form>
-                    <ul className="flex overflow-auto flex-col items-stretch gap-1 max-h-90  mb-2">
+                    <ul className="flex overflow-auto flex-col items-stretch gap-1 max-h-90 mb-2">
                         {tasks.map((task) => (
                             <li
                                 key={task.id}
-                                className="flex justify-center items-center h-20 min-h-15 xl:w-120 w-[70%]rounded bg-amber-50 shadow-md shadow-gray-600 m-1"
+                                className="flex justify-center items-center h-20 min-h-15 xl:w-120 w-[70%] rounded bg-amber-50 shadow-md shadow-gray-600 m-1"
                             >
-                                <div className="flex items-center justify-evenly w-full">
+                                <div className="flex items-center justify-center w-full">
                                     {task.editing ? (
                                         <>
                                             {" "}
@@ -168,19 +170,22 @@ const TodoList = () => {
                                                 onChange={(e) =>
                                                     handleTextEdit(
                                                         task.id,
-                                                        e.target.value
+                                                        e.target.value,
                                                     )
                                                 }
                                                 className="text-gray-950 left-1 w-96 max-h-14 pl-1 outline rounded"
                                             />
                                             <button
-                                                className="cursor-pointer"
+                                                className="ml-2 cursor-pointer"
                                                 onClick={() => {
                                                     handleEditing(task.id);
                                                     editOk(task.id, task.name);
                                                 }}
                                             >
-                                                <img src={Ok} alt="" />
+                                                <FaClipboardCheck
+                                                    color="green"
+                                                    size={"30px"}
+                                                />
                                             </button>
                                         </>
                                     ) : (
@@ -189,12 +194,11 @@ const TodoList = () => {
                                                 onClick={() =>
                                                     handleEditing(task.id)
                                                 }
-                                                className=""
+                                                className="ml-2 w-[30px] cursor-pointer"
                                             >
-                                                <img
-                                                    src={EditIcon}
-                                                    className="ml-1 w-[30px] cursor-pointer"
-                                                    alt=""
+                                                <FaEdit
+                                                    color="#494d4a"
+                                                    size="25px"
                                                 />
                                             </button>
                                             <div className="flex-1 mx-2 my-1 min-w-0 max-h-14 overflow-y-auto bg-gray-200 border border-gray-600 rounded-md">
@@ -224,12 +228,11 @@ const TodoList = () => {
                                                 onClick={() =>
                                                     deleteTask(task.id, task)
                                                 }
-                                                className="py-0.5 mx-1  w-[35px] cursor-pointer"
+                                                className="w-[35px] mx-1 cursor-pointer"
                                             >
-                                                <img
-                                                    className="w-8"
-                                                    src={Trash}
-                                                    alt=""
+                                                <FaTrashAlt
+                                                    color="#494d4a"
+                                                    size="30px"
                                                 />
                                             </button>
                                         </>
