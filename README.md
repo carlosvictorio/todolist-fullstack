@@ -34,7 +34,7 @@ O projeto também foi desenvolvido para **demonstrar habilidades na integração
 ![Login](screenshots/login.png)
 
 ### Tela de Tarefas
-![Tasks](screenshots/tasks.gif)
+![Tasks](screenshots/gif-demostration.gif)
 
 ### Tela de Edição de Usuário
 ![Editar Usuário](screenshots/edit.gif)
